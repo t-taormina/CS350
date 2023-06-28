@@ -35,8 +35,8 @@ void create_array_gap_at_least_two()
     }
 }
 
+// If key is found in the array, return the location, otherwise return -1
 int linear_search(int lo, int hi, int key)
-    // if key is found in the array, return the location, otherwise return -1
 {
     int i;
 
@@ -51,33 +51,50 @@ int linear_search(int lo, int hi, int key)
 }
 
 // Binary search uses an interval halving strategy
+// If key is found in the array, return the location, otherwise return -1  
 int binary_search(int lo, int hi, int key)
-    // if key is found in the array, return the location, otherwise return -1  
 {
-    int mid;
-    
-    mid = (lo + hi) / 2;
-
-    if (x[mid] == key) {
-        return mid;
-    }
     if ((hi - lo) == 1) {
         return -1;
     }
+
+    int mid = (lo + hi) / 2;
+    if (x[mid] == key) {
+        return mid;
+    }
+
     else if(x[mid] < key) {
         return binary_search(mid, hi, key);
     }
-    else if(x[mid] < key) {
+
+    else if(x[mid] > key) {
         return binary_search(lo, mid, key);
     }
 
     return -1 ;
 }
 
+// If key is found in the array, return the location, otherwise return -1  
 int non_recursive_binary_search(int lo, int hi, int key)
-    // if key is found in the array, return the location, otherwise return -1  
 {
-    // you need to fix this  
+    int i, tmph, max_iter;
+
+    max_iter = log2(hi - lo);
+    max_iter++;
+    tmph = hi;
+    
+    for (i = 0; i < max_iter; i++) {
+        int mid = (tmph + lo) / 2;
+        if (key == x[mid]) {
+            return mid;
+        }
+        else if (key > x[mid]) {
+            lo = mid;
+        }
+        else if ( key < x[mid]) {
+            tmph = mid;
+        }
+    }
     return -1 ;
 }
 
@@ -107,7 +124,7 @@ void end_timing()
 
 int test01(int size)
 {
-    int res,key,i ;
+    int key,i ;
     unsigned long a ;
     int numdisagreements ;
 
@@ -275,6 +292,7 @@ int test01(int size)
     printf("numdisagreements between linear and non-recursive binary search = %d\n",
             numdisagreements) ;      
 
+    return 0;
 }
 
 int main()
