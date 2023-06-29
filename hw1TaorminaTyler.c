@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-//gcc -g -Wall -o array_search_student array_search_student.c  
+//gcc -g -Wall -o hw1 hw1TaorminaTyler.c -lm
 
 #define M 100000000
 // 100 million
@@ -100,7 +100,7 @@ int non_recursive_binary_search(int lo, int hi, int key)
 
 // begin TIMING variables
 int signal ;
-struct timeval Tp;
+struct timeval Tp ;
 struct timezone Tzp ;
 long sec,usec ;
 double dsec1, dsec2 ;
