@@ -3,13 +3,13 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-//gcc -g -Wall -o hw1 hw1TaorminaTyler.c -lm
+/*  gcc -g -Wall -o hw1 hw1TaorminaTyler.c -lm  */
 
 #define M 100000000
 // 100 million
 
 int x[M] ;
-int N ;
+int N ; // amount of array being used
 
 void print_array(int lo, int hi)
 {
@@ -38,15 +38,14 @@ void create_array_gap_at_least_two()
 // If key is found in the array, return the location, otherwise return -1
 int linear_search(int lo, int hi, int key)
 {
-    int i;
+    int i ;
 
     for(i = lo; i < hi; i++) {
         if (key == x[i]) {
-            return i;
+            return i ;
         }
     }
 
-    // you need to fix this
     return -1 ;
 }
 
@@ -55,20 +54,20 @@ int linear_search(int lo, int hi, int key)
 int binary_search(int lo, int hi, int key)
 {
     if ((hi - lo) == 1) {
-        return -1;
+        return -1 ;
     }
 
-    int mid = (lo + hi) / 2;
+    int mid = (lo + hi) / 2 ;
     if (x[mid] == key) {
-        return mid;
+        return mid ;
     }
 
     else if(x[mid] < key) {
-        return binary_search(mid, hi, key);
+        return binary_search(mid, hi, key) ;
     }
 
     else if(x[mid] > key) {
-        return binary_search(lo, mid, key);
+        return binary_search(lo, mid, key) ;
     }
 
     return -1 ;
@@ -77,22 +76,22 @@ int binary_search(int lo, int hi, int key)
 // If key is found in the array, return the location, otherwise return -1  
 int non_recursive_binary_search(int lo, int hi, int key)
 {
-    int i, tmph, max_iter;
+    int i, tmph, max_iter ;
 
-    max_iter = log2(hi - lo);
-    max_iter++;
-    tmph = hi;
+    max_iter = log2(hi - lo) ;
+    max_iter++ ;
+    tmph = hi ;
     
     for (i = 0; i < max_iter; i++) {
-        int mid = (tmph + lo) / 2;
+        int mid = (tmph + lo) / 2 ;
         if (key == x[mid]) {
-            return mid;
+            return mid ;
         }
         else if (key > x[mid]) {
-            lo = mid;
+            lo = mid ;
         }
         else if ( key < x[mid]) {
-            tmph = mid;
+            tmph = mid ;
         }
     }
     return -1 ;
@@ -298,4 +297,5 @@ int test01(int size)
 int main()
 {
     test01(M) ;    
+    return 0;
 }
