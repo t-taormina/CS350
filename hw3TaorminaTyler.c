@@ -4,7 +4,7 @@
 // To compile 
 /*  gcc -g -Wall -o hw3 hw3TaorminaTyler.c  */
 
-/* run ->    ./hw3  -t file.txt
+/* run ->    ./hw3  -f file.txt
  *              this will set the text file to be searched to 'file.txt'
  *
  * run ->    ./hw3 -p dog 
@@ -25,89 +25,101 @@
 #include <stdint.h>
 #include <string.h>
 
-
 #define MAX 500
-#define OPTIONS "p:t:h"
+#define OPTIONS "p:f:h"
 
 typedef struct user_input_s {
-  char *pattern;
-  char *text;
-  size_t pattern_len;
-  size_t text_len;
+  char   *pattern;
+  char   *file;
 } user_input_t;
 
-void build_shift_array(user_input_t, int *);
-void horspool(user_input_t, int *);
+typedef struct search_items_s {
+  char   *pattern;
+  char   *text;
+  size_t pattern_len;
+  size_t text_len;
+} search_items_t;
+
+void         build_shift_array(int *, search_items_t *);
+void         confirm_input(user_input_t *);
+void         read_in_text(user_input_t *, search_items_t *);
+void         horspool(int *, search_items_t *);
 user_input_t process_cmd_line(int, char **);
+
 
 int
 main(int argc, char **argv)
 {
-  user_input_t user_input = {NULL, NULL, 0, 0};
+  user_input_t user_input = {NULL, NULL};
+  search_items_t search_items = {NULL, NULL, 0, 0};
+  
   int shift_array[MAX];
 
   user_input = process_cmd_line(argc, argv);
-  build_shift_array(user_input, shift_array);
-  horspool(user_input, shift_array);
+  confirm_input(&user_input);
+  read_in_text(&user_input, &search_items);
+  build_shift_array(shift_array, &search_items);
+  horspool(shift_array, &search_items);
 
   return EXIT_SUCCESS;
 }
 
 void 
-horspool(user_input_t user_input, int *shift_array)
+horspool(int *shift_array, search_items_t *search_items)
 {
   int i, j;
 
-  i = user_input.pattern_len - 1;
+  i = search_items->pattern_len - 1;
 
-  while (i <= user_input.text_len) {
+  while (i <= search_items->text_len) {
     j = 0;
 
-    while ((j < user_input.pattern_len) && (user_input.pattern[(int)(user_input.pattern_len) - 1 - j] == user_input.text[i-j])) {
+    while ((j < search_items->pattern_len) && (search_items->pattern[(int)(search_items->pattern_len) - 1 - j] == search_items->text[i-j])) {
       j++;
     }
 
-    if (j == user_input.pattern_len){
-      printf("%ld\n", i - user_input.pattern_len + 1);
-      i += shift_array[(int) (user_input.text[i])];
-    } else {
-      i += shift_array[(int) (user_input.text[i])];
+    if (j == search_items->pattern_len){
+      printf("%ld\n", i - search_items->pattern_len + 1);
     }
+
+    i += shift_array[(int) (search_items->text[i])];
   }
 }
 
 void
-build_shift_array(user_input_t user_input, int *shift_array)
+build_shift_array(int *shift_array, search_items_t *search_items)
 {
   int i;
   
   for (i = 0; i < MAX; i++){
-    shift_array[i] = user_input.pattern_len;
+    shift_array[i] = search_items->pattern_len;
   }
 
-  for (i = 0; i < user_input.pattern_len - 1; i++) {
-    shift_array[(int) (user_input.pattern[i])] = user_input.pattern_len - 1 - i;
+  for (i = 0; i < search_items->pattern_len - 1; i++) {
+    shift_array[(int) (search_items->pattern[i])] = search_items->pattern_len - 1 - i;
   }
+}
+
+void
+read_in_text(user_input_t *user_input, search_items_t *search_items)
+{
+
 }
 
 user_input_t 
 process_cmd_line(int argc, char **argv)
 {
-  user_input_t user_input = {NULL, NULL, 0, 0};
+  user_input_t user_input = {NULL, NULL};
   {
     int opt = -1;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
       switch (opt) {
         case 'p': 
           user_input.pattern = optarg;
-          user_input.pattern_len = strlen(user_input.pattern);
-          printf("%s  length: %ld\n", user_input.pattern, user_input.pattern_len);
           break;
 
-        case 't': 
-          user_input.text = optarg;
-          user_input.text_len = strlen(user_input.text);
-          printf("%s\n", user_input.text);
+        case 'f': 
+          user_input.file = optarg;
           break;
 
         case 'h':
@@ -123,4 +135,18 @@ process_cmd_line(int argc, char **argv)
     }
   }
   return user_input;
+}
+
+void
+confirm_input(user_input_t *user_input)
+{
+  if (NULL == user_input->pattern) {
+    fprintf(stderr, "No provided pattern to search for. Cannot run Horspool's.\n");
+    exit(1);
+  }
+
+  if (NULL == user_input->file) {
+    fprintf(stderr, "No provided text file to search in. Cannot run Horspool's.\n");
+    exit(2);
+  }
 }
