@@ -92,12 +92,12 @@ void create_array(int *arr)
 
 void print_array(int *arr)
 {
-    int i ;
+    int i;
     for(i = 0; i < (size-1); i++) {
-        printf("%d -> ", arr[i]) ;
+        printf("%d -> ", arr[i]);
     }
-    printf("%d\n", arr[size-1]) ;
-    printf("\n") ;
+    printf("%d\n", arr[size-1]);
+    printf("\n");
 }
 
 void
