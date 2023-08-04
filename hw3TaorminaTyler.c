@@ -16,6 +16,9 @@
  *
  *
  * run ->    ./hw3 -p Arlo -t test.txt 
+ *
+ * The program can't run if both a pattern and file aren't provided. Error output
+ * informs this. 
  */
 
 
@@ -25,7 +28,12 @@
 #include <stdint.h>
 #include <string.h>
 
-#define MAX 500
+// This should support all ascii decimal values based on this table https://www.asciitable.com/
+#define MAX 127 
+
+// Max test file size based on question asked in class. We could refactor the code
+// to instead allocate memory dynamically if we wanted to support larger or smaller files 
+// more efficiently. I chose not to do that since a max file size was given. 
 #define MAX_TEXT_FILE 1000
 #define OPTIONS "p:f:h"
 
@@ -41,11 +49,11 @@ typedef struct search_items_s {
   char   text[MAX_TEXT_FILE];
 } search_items_t;
 
-void         build_shift_array(int *, search_items_t *);
-void         confirm_input(user_input_t *);
-void         read_in_text(user_input_t *, search_items_t *);
-void         horspool(int *, search_items_t *);
 user_input_t process_cmd_line(int, char **);
+void         confirm_input(user_input_t *);
+void         fill_search_items(user_input_t *, search_items_t *);
+void         build_shift_array(int *, search_items_t *);
+void         horspool(int *, search_items_t *);
 
 
 int
@@ -53,12 +61,11 @@ main(int argc, char **argv)
 {
   user_input_t user_input = {NULL, NULL};
   search_items_t search_items = {NULL, 0, 0};
-  
   int shift_array[MAX];
 
   user_input = process_cmd_line(argc, argv);
   confirm_input(&user_input);
-  read_in_text(&user_input, &search_items);
+  fill_search_items(&user_input, &search_items);
   build_shift_array(shift_array, &search_items);
   horspool(shift_array, &search_items);
 
@@ -102,14 +109,13 @@ build_shift_array(int *shift_array, search_items_t *search_items)
 }
 
 void
-read_in_text(user_input_t *user_input, search_items_t *search_items)
+fill_search_items(user_input_t *user_input, search_items_t *search_items)
 {
-  FILE *fp;
-  int i;
   char c;
+  int i;
+  FILE *fp;
   
-  fp = fopen(user_input->file, "r");
-  if (NULL == fp) {
+  if (NULL == (fp = fopen(user_input->file, "r"))){
     perror("Cannot open file for reading");
     exit(EXIT_FAILURE);
   }
