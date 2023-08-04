@@ -4,10 +4,10 @@
 // To compile 
 /*  gcc -g -Wall -o hw4 hw4TaorminaTyler.c  */
 
-/* run ->    ./hw4  -f file.txt
- *              this will set the text file to be searched to 'file.txt'
+/* run ->    ./hw4  -f test.txt
+ *              this will set the text file to be searched to 'test.txt'
  *
- * run ->    ./hw4 -p dog 
+ * run ->    ./hw4 -p Arlo 
  *              this will set the pattern to 'dog' and search for it in the given text 
  *              with Horspool's algorithm.
  *
