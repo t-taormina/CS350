@@ -16,6 +16,7 @@ int t[N][N + 1] = {
 };
 
 
+// Fibonacci sequence
 int
 steps(int num)
 {
