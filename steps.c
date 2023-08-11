@@ -1,11 +1,12 @@
 // Tyler Taormina 
 //
-/*  gcc -g -Wall -o steps steps.c   */
+/*  gcc -Wall -o steps steps.c   */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N  4
+#define N  4 // used for sum descent functions
+#define M  7 // used for choose functions
 #define INF  1000000000
 
 int t[N][N + 1] = {
@@ -15,6 +16,9 @@ int t[N][N + 1] = {
   {8, 6, 9, 6, INF}
 };
 
+int ct[M+1][M+1] = {{0}};
+int tt[M+1][M+1] = {{0}};
+  /*
 int ct[7 + 1][7 + 1] = {
   {0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0}, 
@@ -25,6 +29,7 @@ int ct[7 + 1][7 + 1] = {
   {0, 0, 0, 0, 0, 0, 0, 0}, 
   {0, 0, 0, 0, 0, 0, 0, 0}
 };
+*/
 
 
 // Fibonacci sequence
@@ -71,13 +76,13 @@ choose_tab(int n, int k)
   
     // for (j = 0; j <= i && j <= k; j++) {
     for (j = 0; j <= i ; j++) {
-      if (j == 0 || j == i) ct[i][j] = 1;
+      if (j == 0 || j == i) tt[i][j] = 1;
       else {
-        ct[i][j] = ct[i-1][j] + ct[i-1][j-1];
+        tt[i][j] = tt[i-1][j] + tt[i-1][j-1];
       }
     }
   }
-  return ct[n][k];
+  return tt[n][k];
 }
 
 int
@@ -134,26 +139,26 @@ sum_descent_tab(int r, int c)
 int 
 main(int argc, char *argv[])
 {
-  int i, j;
+  // int i, j;
   int ans = steps(5);
   int ans1 = sum_descent(0, 0);
   int ans2 = sum_descent_memo(0, 0);
   int ans3 = sum_descent_tab(0, 0);
-  int ans4 = choose(7, 3);
-  // int ans5 = choose_memo(7, 6);
-  int ans6 = choose_tab(7, 3);
+  int ans4 = choose(7, 2);
+  int ans5 = choose_memo(7, 2);
+  int ans6 = choose_tab(7, 2);
 
-  printf("Answer steps      : %d\n", ans);
-  printf("Answer sum        : %d\n", ans1);
-  printf("Answer memo sum   : %d\n", ans2);
-  printf("Answer tab sum    : %d\n", ans3);
-  printf("Answer n choose k : %d\n", ans4);
-  // printf("Answer memo choose: %d\n", ans5);
-  printf("Answer tab choose : %d\n", ans6);
+  printf("Answer steps        : %d\n", ans);
+  printf("Answer sum          : %d\n", ans1);
+  printf("Answer memo sum     : %d\n", ans2);
+  printf("Answer tab sum      : %d\n", ans3);
+  printf("Answer naive choose : %d\n", ans4);
+  printf("Answer memo choose  : %d\n", ans5);
+  printf("Answer tab choose   : %d\n", ans6);
 
 
   // Shows restructured array
-  // /*
+  /*
   for (i = 0; i < 8; i++) {
     for (j = 0; j < 8; j++) {
       printf("%d ", ct[i][j]);
@@ -161,7 +166,7 @@ main(int argc, char *argv[])
     printf("\n");
   }
   printf("\n");
-  // */
+  */
 
   return EXIT_SUCCESS;
 }

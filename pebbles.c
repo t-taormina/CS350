@@ -1,8 +1,7 @@
-/* Tyler Taormina - Pebbles program practicing recursive problem solving */
+/* Tyler Taormina - Pebbles program practicing recursive and dynamic problem solving */
 /* taormina@pdx.edu */
 
-// To compile 
-/*  gcc -g -Wall -o pebbles pebbles.c  */
+/*  gcc -Wall -o pebbles pebbles.c  */
 
 
 #include <stdio.h>
@@ -78,7 +77,7 @@ find_pebbles_memoized_recursive(int r, int c)
   return mtable[r][c];
 }
 
-// Tabulized recursive implementation
+// Tabulized iterative implementation
 int
 find_pebbles_tabulized_recursive(int r, int c)
 {
