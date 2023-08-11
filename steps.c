@@ -18,19 +18,6 @@ int t[N][N + 1] = {
 
 int ct[M+1][M+1] = {{0}};
 int tt[M+1][M+1] = {{0}};
-  /*
-int ct[7 + 1][7 + 1] = {
-  {0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0}, 
-  {0, 0, 0, 0, 0, 0, 0, 0}
-};
-*/
-
 
 // Fibonacci sequence
 int
@@ -71,11 +58,10 @@ choose_tab(int n, int k)
   if (k > n) return 0;
   for (i = 0; i <= n; i++) {
 
-    // Instead of calculating the full pascals triangle we can calculate just what we need
-    // by substituting in the line below for the j portion of the for loop. 
-  
-    // for (j = 0; j <= i && j <= k; j++) {
-    for (j = 0; j <= i ; j++) {
+    // Instead of calculating the full pascals triangle we can calculate just what we need.
+    // The ine below will create the full triangle. 
+    for (j = 0; j <= i && j <= k; j++) { // comment this line
+    // for (j = 0; j <= i ; j++) { // uncomment this line for full triangle
       if (j == 0 || j == i) tt[i][j] = 1;
       else {
         tt[i][j] = tt[i-1][j] + tt[i-1][j-1];
@@ -136,10 +122,10 @@ sum_descent_tab(int r, int c)
   return t[r][c];
 }
 
+
 int 
 main(int argc, char *argv[])
 {
-  // int i, j;
   int ans = steps(5);
   int ans1 = sum_descent(0, 0);
   int ans2 = sum_descent_memo(0, 0);
@@ -155,18 +141,6 @@ main(int argc, char *argv[])
   printf("Answer naive choose : %d\n", ans4);
   printf("Answer memo choose  : %d\n", ans5);
   printf("Answer tab choose   : %d\n", ans6);
-
-
-  // Shows restructured array
-  /*
-  for (i = 0; i < 8; i++) {
-    for (j = 0; j < 8; j++) {
-      printf("%d ", ct[i][j]);
-    }
-    printf("\n");
-  }
-  printf("\n");
-  */
 
   return EXIT_SUCCESS;
 }
