@@ -10,6 +10,14 @@
 #define P    8          // used for rod length and price array
 #define INF  1000000000 // used for filling table 't' in sum descent solution
 
+// RUNTIMES
+// Rodcutting  - O(n^2) time complexity
+// Rodcutting  - O(n) space complexity
+// Sum descent - O(n) time complexity
+// Sum descent - O(n^2) space complexity
+// Choose      - O(n) time complexity
+// Choose      - O(n) space complexity
+
 
 // GLOBALS
 // =========================================================================
@@ -109,7 +117,7 @@ int
 sum_descent_memo(int r, int c)
 {
   int a, b, min;
-  if ((r >= N -1) || (c >= N -1)) {
+  if ((r >= N - 1) || (c >= N - 1)) {
     t[N-r-1][N-c] = t[r][c];
     return t[r][c];
   }
@@ -129,7 +137,7 @@ sum_descent_memo(int r, int c)
 int
 sum_descent_tab(int r, int c)
 {
-  int i, j, a, min;
+  int a, i, j, min;
   if (r == N)
     return t[r][c];
 
