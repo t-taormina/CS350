@@ -6,10 +6,10 @@
 
 #include "algos.h"
 
-#define N    4  // used for sum descent functions
-#define M    7  // used for choose functions
-#define P    8  // used for rod length and price array
-#define INF  1000000000
+#define N    4          // used for sum descent functions
+#define M    7          // used for choose functions
+#define P    8          // used for rod length and price array
+#define INF  1000000000 // used for filling table 't' in sum descent solution
 
 //       Rod length     0  1  2  3  4  5   6   7   8
 const int price[P+1] = {0, 1, 5, 8, 9, 10, 17, 17, 20};
@@ -26,8 +26,8 @@ int t[N][N + 1] = {
   {8, 6, 9, 6, INF}
 };
 
-int ct[M+1][M+1] = {{0}};
-int tt[M+1][M+1] = {{0}};
+int cm[M+1][M+1] = {{0}}; // Choose memoized solution table
+int ct[M+1][M+1] = {{0}}; // Choose tabulized solution table
 
 
 int
@@ -41,15 +41,15 @@ choose(int n, int k)
 int
 choose_memo(int n, int k)
 {
-  if (ct[n][k] != 0) return ct[n][k];
+  if (cm[n][k] != 0) return cm[n][k];
   if (n == k || k == 0){
-    ct[n][k] = 1;
-    ct[n][n-k] = 1;
-    return ct[n][k];
+    cm[n][k] = 1;
+    cm[n][n-k] = 1;
+    return cm[n][k];
   } 
-  ct[n][k] = choose_memo(n - 1, k - 1) + choose_memo(n - 1, k);
-  ct[n][n-k] = ct[n][k];
-  return ct[n][k];
+  cm[n][k] = choose_memo(n - 1, k - 1) + choose_memo(n - 1, k);
+  cm[n][n-k] = cm[n][k];
+  return cm[n][k];
 }
 
 int
@@ -64,13 +64,13 @@ choose_tab(int n, int k)
     // The ine below will create the full triangle. 
     for (j = 0; j <= i && j <= k; j++) { // comment this line
     // for (j = 0; j <= i ; j++) { // uncomment this line for full triangle
-      if (j == 0 || j == i) tt[i][j] = 1;
+      if (j == 0 || j == i) ct[i][j] = 1;
       else {
-        tt[i][j] = tt[i-1][j] + tt[i-1][j-1];
+        ct[i][j] = ct[i-1][j] + ct[i-1][j-1];
       }
     }
   }
-  return tt[n][k];
+  return ct[n][k];
 }
 
 int
