@@ -5,9 +5,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N  4 // used for sum descent functions
-#define M  7 // used for choose functions
+#define N    4  // used for sum descent functions
+#define M    7  // used for choose functions
+#define P    8  // used for rod length and price array
 #define INF  1000000000
+
+//       Rod length     0  1  2  3  4  5   6   7   8
+const int price[P+1] = {0, 1, 5, 8, 9, 10, 17, 17, 20};
+// Given this table solutions should be ...
+// Length 4: 10 (2 length 2 pieces)
+// Length 5: 
+// Length 6: 
+// Length 8: 
 
 int t[N][N + 1] = {
   {2, INF, INF, INF, INF}, 
@@ -123,9 +132,17 @@ sum_descent_tab(int r, int c)
 }
 
 
+int
+rodcut(int n){
+  return 0;
+}
+
+
 int 
 main(int argc, char *argv[])
 {
+  int ans7 = rodcut(4);
+  /*
   int ans = steps(5);
   int ans1 = sum_descent(0, 0);
   int ans2 = sum_descent_memo(0, 0);
@@ -141,6 +158,8 @@ main(int argc, char *argv[])
   printf("Answer naive choose : %d\n", ans4);
   printf("Answer memo choose  : %d\n", ans5);
   printf("Answer tab choose   : %d\n", ans6);
+  */
+  printf("Answer naive rodcut : %d\n", ans7);
 
   return EXIT_SUCCESS;
 }
