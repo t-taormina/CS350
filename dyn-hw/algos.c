@@ -129,5 +129,5 @@ sum_descent_tab(int r, int c)
 int
 rodcut(int n)
 {
-  return 0;
+  return n;
 }
