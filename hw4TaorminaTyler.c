@@ -15,7 +15,7 @@
  *              help message gets displayed
  *
  *
- * run ->    ./hw4 -p Arlo -t test.txt 
+ * run ->    ./hw4 -p Arlo -f test.txt 
  *
  * The program can't run if both a pattern and file aren't provided. Error output
  * informs this. 
@@ -79,7 +79,8 @@ horspool(int *shift_array, search_items_t *search_items)
 
   i = search_items->pattern_len - 1;
 
-  while (i <= search_items->text_len) {
+  printf("%ld\n", search_items->text_len);
+  while (i <= ((search_items->text_len + 1) - (search_items->pattern_len - 1))) {
     j = 0;
 
     while ((j < search_items->pattern_len) && (search_items->pattern[(int)(search_items->pattern_len) - 1 - j] == search_items->text[i-j])) {
