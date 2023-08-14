@@ -1,4 +1,4 @@
-// Tyler Taormina 
+// Tyler Taormina - taormina@pdx.edu
 
 #include <stdio.h>
 #include <stdlib.h>
